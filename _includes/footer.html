@@ -5,7 +5,7 @@
       {% assign year_to   = site.time | date: '%Y' %}
       {% if year_from == nil or year_from == year_to %}
         {% assign year_string = year_from %}
-      {% else %}ㅋ
+      {% else %}
         {% assign year_string = year_from | append: '&nbsp;' | append: '-' | append: '&nbsp;' | append: year_to %}
       {% endif %}
       {% if site.author %}
