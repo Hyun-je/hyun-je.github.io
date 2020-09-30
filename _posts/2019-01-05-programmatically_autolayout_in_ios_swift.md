@@ -1,4 +1,3 @@
-
 ---
 layout: post
 toc: true
