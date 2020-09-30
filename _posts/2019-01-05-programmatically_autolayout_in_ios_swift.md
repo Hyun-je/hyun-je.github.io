@@ -23,7 +23,7 @@ iOS 개발에 입문할 때 보통 Xcode의 Interface Builder 상에서 Autolayo
 
 
 
-## 코드 기반 Autolayout 방법
+## 코드 기반 Autolayout
 코드 기반을 Autolayout을 적용하기 위해서는 기본적으로 아래의 사항만 숙지하고 있으면 된다. 대부분의 Autolayout 관련 개념들은 Interface Builder를 이용한 Autolayout과 동일하므로 별도로 설명하지 않는다.
 
 ### 1. UIView 속성 설정
