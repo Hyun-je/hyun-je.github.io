@@ -6,9 +6,7 @@ categories: ios
 tags: [ios, swift, autolayout, storyboard, ui]
 ---
 
-iOS 개발에 입문할 때 보통 Xcode의 Interface Builder 상에서 Autolayout을 이용한 UI 요소의 배치 방법을 배우게 될 것이다.
-
-간단한 프로젝트에서는 이 방법으로 특별히 문제가 없겠지만 규모가 크고 여러 개발자가 협업하는 프로젝트에서는 어떤 방식으로 UI를 구현할 것인지는 중요한 의사결정 사항 중 하나이다.
+iOS 개발에 입문할 때 보통 Xcode의 Interface Builder 상에서 Autolayout을 이용한 UI 요소의 배치 방법을 배우게 될 것이다. 간단한 프로젝트에서는 이 방법으로 특별히 문제가 없겠지만 규모가 크고 여러 개발자가 협업하는 프로젝트에서는 어떤 방식으로 UI를 구현할 것인지는 중요한 의사결정 사항 중 하나이다.
 
 이러한 이슈에 대한 이해를 돕기 위해 Interface Builder 기반 Autolayout의 장점과 단점을 정리하여 보았다.
 
@@ -21,9 +19,7 @@ iOS 개발에 입문할 때 보통 Xcode의 Interface Builder 상에서 Autolayo
 > - 형상관리에서 diff를 통한 변경사항 파악 어려움
 > - .xib 또는 .storyboard 파일을 포함하여 각 UI 모듈마다 복수개의 파일을 관리해야 함
 
-현재는 각 개발자와 조직별로 위 사항을 고려하여 주어진 개발 여건에 맞게 Interface Builder 또는 코드 기반의 Autolayout을 적용하는 것으로 양분되어 있지만
-
-조만간 SwiftUI를 이용한 UI개발이 보편화 되면 더 이상 이러한 고민이 필요해지지 않을 것으로 예상된다.
+현재는 각 개발자와 조직별로 위 사항을 고려하여 주어진 개발 여건에 맞게 Interface Builder 또는 코드 기반의 Autolayout을 적용하는 것으로 양분되어 있지만 조만간 SwiftUI를 이용한 UI개발이 보편화 되면 더 이상 이러한 고민이 필요해지지 않을 것으로 예상된다.
 
 
 
@@ -46,7 +42,7 @@ iOS에서 UIView의 Constraint 지정하는 것은 여러 방법이 있으나 iO
 
 UIView에는 6가지(top, bottom, leading, trailing, width, height) Anchor가 존재하고 각 Anchor에 상수 또는 다른 Anchor와의 관계를 constrain 함수로 지정한다.
 
-만들어진 Constraint는 isActive 속성을 true로 바꾸어 활성화 시켜주어야만 런타임에서 반영된다. Constraint를 활성화하기 이전에는 반드시 addSubView를 통해 부모 뷰에 등록 되어야 하는데 그렇지 않은 경우 런타임 에러가 발생하게 되므로 주의한다.
+생성된 Constraint는 isActive 속성을 true로 바꾸어 활성화 시켜주어야만 실제로 반영된다. Constraint를 활성화하기 이전에는 반드시 addSubView를 통해 부모 뷰에 등록 되어야 하는데 그렇지 않은 경우 런타임 에러가 발생하게 되므로 주의한다.
 
 ``` swift 
 // 방법1. 하나의 Constraint 활성화
