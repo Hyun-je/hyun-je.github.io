@@ -62,7 +62,7 @@ NSLayoutConstraint.activate([
 ### 3. Priority 지정
 Constraint에 Priority를 지정하는 경우 메소드 체이닝을 이용하여 생성과 동시에 지정하는 것은 기본적으로 불가하며 Constraint를 변수에 저장 후 priority 속성을 변경하여야 한다.
 
-만일 Priority 지정이 잦은 경우 위와 같은 방법으로는 불필요한 변수 선언이 코드의 가독성으 해칠 수 있으므로 extension을 활용하에 메소드 체이닝 형태로 지정할 수 있도록 한다.
+만일 Priority 지정이 잦은 경우 위와 같은 방법으로는 불필요한 변수 선언이 코드의 가독성을 해칠 수 있으므로 extension을 활용하에 메소드 체이닝 형태로 지정할 수 있도록 한다.
 
 ``` swift
 // 방법1. 변수 대입 후 속성 변경
