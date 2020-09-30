@@ -44,9 +44,9 @@ view.translatesAutoresizingMaskIntoConstraints = false
 ### 2. Constraint 지정
 iOS에서 UIView의 Constraint 지정하는 것은 여러 방법이 있으나 iOS 9.0에 추가된 가장 최신의 방법 기준으로 설명하겠다.
 
-UIView에는 6가지(top, bottom, leading, trailing, width, height) Anchor가 존재하고 각 Anchor에 상수 또는 다른 Anchor와의 관계를 지정하는 방법으로 Constraint의 종류는 함수의 파라미터명만 보아도 각각을 이해하고 활용하는데 어려움은 없을 것이다.
+UIView에는 6가지(top, bottom, leading, trailing, width, height) Anchor가 존재하고 각 Anchor에 상수 또는 다른 Anchor와의 관계를 constrain 함수로 지정한다.
 
-Constraint를 지정하기 전 주의해야 할 한가지 사항은 Constraint를 활성화하기 이전에 반드시 addSubView를 통해 부모 뷰에 등록 되어 있어야 한다는 점이다. 그렇지 않은 경우 런타임 에러가 발생하게 된다.
+만들어진 Constraint는 isActive 속성을 true로 바꾸어 활성화 시켜주어야만 런타임에서 반영된다. Constraint를 활성화하기 이전에는 반드시 addSubView를 통해 부모 뷰에 등록 되어야 하는데 그렇지 않은 경우 런타임 에러가 발생하게 되므로 주의한다.
 
 ``` swift 
 // 방법1. 하나의 Constraint 활성화
@@ -100,5 +100,5 @@ NSLayoutConstraint.activate([
 
 
 ## 참고자료
-[애플 개발자 문서 - translatesAutoresizingMaskIntoConstraints](https://developer.apple.com/documentation/uikit/uiview/1622572-translatesautoresizingmaskintoco)
-[애플 개발자 문서 - Programmatically Creating Constraints](https://developer.apple.com/library/archive/documentation/UserExperience/Conceptual/AutolayoutPG/ProgrammaticallyCreatingConstraints.html)
+- [애플 개발자 문서 - translatesAutoresizingMaskIntoConstraints](https://developer.apple.com/documentation/uikit/uiview/1622572-translatesautoresizingmaskintoco)
+- [애플 개발자 문서 - Programmatically Creating Constraints](https://developer.apple.com/library/archive/documentation/UserExperience/Conceptual/AutolayoutPG/ProgrammaticallyCreatingConstraints.html)
