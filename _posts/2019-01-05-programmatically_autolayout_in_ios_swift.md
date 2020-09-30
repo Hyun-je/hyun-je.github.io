@@ -1,3 +1,4 @@
+
 ---
 layout: post
 toc: true
@@ -6,7 +7,6 @@ categories: ios
 tags: [ios, swift, autolayout, storyboard, ui]
 ---
 
-## Interface Builder vs 코드 기반 Autolayout
 iOS 개발에 입문할 때 보통 Xcode의 Interface Builder 상에서 Autolayout을 이용한 UI 요소의 배치 방법을 배우게 될 것이다.
 
 간단한 프로젝트에서는 이 방법으로 특별히 문제가 없겠지만 규모가 크고 여러 개발자가 협업하는 프로젝트에서는 어떤 방식으로 UI를 구현할 것인지는 중요한 의사결정 사항 중 하나이다.
@@ -29,6 +29,7 @@ iOS 개발에 입문할 때 보통 Xcode의 Interface Builder 상에서 Autolayo
 
 
 ## 코드 기반 Autolayout 방법
+코드 기반을 Autolayout을 적용하기 위해서는 기본적으로 아래의 사항만 숙지하고 있으면 된다. 대부분의 Autolayout 관련 개념들은 Interface Builder를 이용한 Autolayout과 동일하므로 별도로 설명하지 않는다.
 
 ### 1. UIView 속성 설정
 코드 기반의 Autolayout을 하고자 하는 UIView(또는 UIView를 상속한 클래스)에 대해서는 translatesAutoresizingMaskIntoConstraints 속성을 false로 지정할 필요가 있다.
