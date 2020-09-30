@@ -1,3 +1,11 @@
+---
+layout: post
+toc: true
+title: "코드 기반 Autolayout"
+categories: ios
+tags: [ios, swift, autolayout, storyboard, ui]
+---
+
 ## 스토리보드 vs 코드 기반 Autolayout
 iOS 개발에 입문할 때 보통 Xcode의 스토리보드 상에서 Autolayout을 이용한 UI 요소의 배치 방법을 배우게 될 것이다.
 간단한 스토리보드 사용에 대해 별다르 문제가 없겠지만 규모가 크고 여러 개발자가 협업하는 프로젝트에서는
