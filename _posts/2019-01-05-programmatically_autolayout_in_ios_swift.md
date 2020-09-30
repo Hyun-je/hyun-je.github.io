@@ -1,7 +1,7 @@
 ---
 layout: post
 toc: true
-title: "코드 기반 Autolayout"
+title: "iOS의 코드 기반 Autolayout"
 categories: ios
 tags: [ios, swift, autolayout, storyboard, ui]
 ---
@@ -11,17 +11,52 @@ iOS 개발에 입문할 때 보통 Xcode의 스토리보드 상에서 Autolayout
 간단한 스토리보드 사용에 대해 별다르 문제가 없겠지만 규모가 크고 여러 개발자가 협업하는 프로젝트에서는
 중요한 의사결정 사항 중 하나이다.
 
-장점
-- 직관적으로 Constraint를 배치 가능
-- 컴파일 없이 결과물이 곧바로 시각화 됨 (디자이너와 소통 용이)
-- 레이아웃 관련 코드 생략되어 코드가 간결해 짐
+> 장점
+> - 직관적으로 Constraint를 배치 가능
+> - 컴파일 없이 결과물이 곧바로 시각화 됨 (디자이너와 소통 용이)
+> - 레이아웃 관련 코드 생략되어 코드가 간결해 짐
 
-단점
-- 형상관리에서 diff를 통한 변경사항 파악 어려움
-- .xib 또는 .storyboard 파일을 포함하여 하나의 UI 모듈마다 복수개의 파일을 관리해야 함
+> 단점
+> - 형상관리에서 diff를 통한 변경사항 파악 어려움
+> - .xib 또는 .storyboard 파일을 포함하여 하나의 UI 모듈마다 복수개의 파일을 관리해야 함
 
 현재는 각 개발자와 조직별로 주어진 개발 여건에 맞게 스토리보드 또는 코드 기반의 Autolayout으 적용하는 것으로 양분되어 있지만
 조만간 SwiftUI를 이용한 개발이 보편화 되면 더 이상 의사결정이 필요해지지 않을 것으로 예상된다.
 
 
 ## 코드 기반 Autolayout 방법
+
+### 1. UIView 속성 설정
+``` swift
+let view = UIView()
+view.translatesAutoresizingMaskIntoConstraints = false
+```
+
+### 2. Constraint 지정
+``` swift 
+NSLayoutConstraint.activate([
+    subView.topAnchor.constraint(equalTo: parentView.topAnchor),
+    subView.bottomAnchor.constraint(equalTo: parentView.bottomAnchor),
+    subView.leadingAnchor.constraint(equalTo: parentView.leadingAnchor),
+    subView.trailingAnchor.constraint(equalTo: parentView.trailingAnchor)
+])
+```
+
+### 3. Priority 지정
+``` swift
+extension NSLayoutConstraint {
+    
+    func with(_ priority: UILayoutPriority) -> NSLayoutConstraint {
+        self.priority = priority
+        return self
+    }
+    
+}
+
+NSLayoutConstraint.activate([
+    subView.widthAnchor.constraint(equalToConstant: 300).with(UILayoutPriority(1000)),
+    subView.trailingAnchor.constraint(equalTo: parentView.trailingAnchor).with(UILayoutPriority(700)),
+])
+```
+
+## 결론
