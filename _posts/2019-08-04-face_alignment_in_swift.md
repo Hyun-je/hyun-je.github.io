@@ -1,7 +1,7 @@
 ---
 layout: post
 toc: true
-title: "Swift로 Face Alignment 구현"
+title: "Swift 및 iOS Framework 기반 Face Alignment 구현"
 categories: vision
 tags: [swift, vision, openface]
 ---
