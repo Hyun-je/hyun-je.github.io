@@ -6,15 +6,13 @@ categories: vision
 tags: [swift, vision, openface]
 ---
 
-Face Alignment는 얼굴 관련 알고리즘 및 머신러닝에서 필요로하는 전처리 방법으로 
-표준화된 눈, 코, 입 위치가 되도록 변환하는 것을 말한다.
+Face Alignment는 얼굴 관련 알고리즘 및 머신러닝에서 필요로 하는 전처리 방법으로 
+얼굴의 각도, 크기, 비율 등에 관계 없이 일정한 표준화된 눈, 코, 입 위치가 되도록 얼굴 이미지를 Affine 변환하는 것을 말한다.
 
-얼굴의 각도, 크기, 비율 등에 관계 없이 좀 더 일정한 추출하는데 도움이 된다.
+Face Alignment는 매우 OpenCV에서 기본적으로 제공되나 iOS 환경에서 C++로 작성된 OpenCV를 구동하기 위해서는 다소 복잡한 Bridging 과정이 필요하며 또한 OpenCV는 CPU만 이용하여 연산되므로 성능면에서도 불리하다.
 
-OpenCV 등의 제공되나 iOS 또는 
-또한 OpenCV는 CPU만 이용하여 연산되므로 성능면에서도 불리하다.
+따라서 얼굴 인식 관련 iOS 앱 개발 시 유용하게 사용할 수 있는 Swift 및 Apple 디바이스에 최적화된 Face Alignment 코드를 만들어보고자 한다.
 
-최적화된 코드를 만들어보고자 한다.
 
 ### 1. Face Landmark 추출
 Apple에서 제공하는 Vision 프레임워크의 Face Landmark 추출 기능을 활용한다.
@@ -40,9 +38,16 @@ Apple에서 제공하는 Vision 프레임워크의 Face Landmark 추출 기능�
 `rightEye[4]`
 `nose[4]`
 
-### 3. Matrix 생성
+### 3. 좌표 변환
+Vision 프레임워크와 CoreImage에서 사용하는 좌표계는 
+정확한 Transform Matrix를 구하기 위해서는 고려하여 연산을 수행하여야 한다.
 
-### 4. Affine Transform 수행
+### 4. Matrix 생성
+6계 연립방정식을 풀면 
+역행렬을 곱하여 
+역행렬 연산 및 행렬 곱 연산은 Accelerate 프레임워크를 이용하여 성능을 최적화 한다.
+
+### 5. Affine Transform 수행
 
 ## 결론
 
