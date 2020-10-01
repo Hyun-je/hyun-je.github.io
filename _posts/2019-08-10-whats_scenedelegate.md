@@ -3,7 +3,7 @@ layout: post
 toc: true
 title: "SceneDelegate 이해하기"
 categories: ios
-tags: [ios, swift, storyboard, ui]
+tags: [ios, swift, ui, wwdc19]
 ---
 
 Xcode 11.0 부터 iOS 프로젝트를 생성하는 경우 변경점이 하나 생겼다. Xcode에서 자동으로 생성해주는 파일에 `SceneDelegate.swift`라는 파일이 추가된 것이다. Scene이라는 단어가 포함되어 있기 때문에 화면에 보여지는 무언가와 관련된 것임은 짐작할 수 있는데 과연 `SceneDelegate`는 무엇인지, 어떻게 사용해야 하는지 알아보았다.
