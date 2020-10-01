@@ -60,16 +60,78 @@ let y3 = Double(originalImageSize.height - nose[4].y)
 ```
 
 ### 3. Transform Matrix 얻기
-역행렬 연산 및 행렬 곱 연산은 `Accelerate` 프레임워크의 `LinearAlgebra` 관련 함수를 이용하여 성능을 최적화 한다.
+Transform Matrix를 구하기 위해 행렬의 각 요소를 미지수로 하는 6원 연립방정식을 정의한다.
 
+연립방정식은 다음과 같이 행렬로 나타낸 뒤 역행렬을 이용하여 해를 구한다. 이 때 역행렬 연산 및 행렬 곱 연산은 `Accelerate` 프레임워크의 `LinearAlgebra` 관련 함수를 이용하여 성능을 최적화 한다.
+
+``` swift
+// 역행렬 연산 함수
+func invert(_ matrix : [Double]) -> [Double] {
+
+	var inMatrix = matrix
+	var N = __CLPK_integer(sqrt(Double(matrix.count)))
+	var pivots = [__CLPK_integer](repeating: 0, count: Int(N))
+	var workspace = [Double](repeating: 0.0, count: Int(N))
+	var error : __CLPK_integer = 0
+
+	withUnsafeMutablePointer(to: &N) {
+		dgetrf_($0, $0, &inMatrix, $0, &pivots, &error)
+		dgetri_($0, &inMatrix, $0, &pivots, &workspace, $0, &error)
+	}
+
+	return inMatrix
+}
+
+// 행렬 곱 연산 함수
+func multiply(_ matrixA: [Double], _ matrixB: [Double], _m: Int, _k: Int, _n:Int) -> [Double] {
+
+	var matrixC = [Double](repeating: [Double](repeating: 0, count: n), count: m)
+	cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans,
+				m, n, k,
+				1.0, matrixA, k,
+				matrixB, n,
+				0.0, &matrixC, matrixC.count)
+	
+	return matrixC
+}
+```
+
+``` swift
+let m = 6
+let k = 6
+let n = 1
+
+// m x k
+let matrix = [	x1, y1, 1,  0,  0, 0,
+				 0,  0, 0, x1, y1, 1,
+				x2, y2, 1,  0,  0, 0,
+				 0,  0, 0, x2, y2, 1,
+				x3, y3, 1,  0,  0, 0,
+				 0,  0, 0, x3, y3, 1	]
+
+// k * n			 
+let vector = [	18.63907, 16.24962,
+				75.73048, 15.18443,
+				47.51528, 49.38637	]
+
+let answerMatrix = multiply(invert(matrix), vector, m, k, n)
+
+var alignMatrix = CGAffineTransform()
+alignMatrix.a 	= CGFloat(answerMatrix[0])
+alignMatrix.b 	= CGFloat(answerMatrix[3])
+alignMatrix.c 	= CGFloat(answerMatrix[1])
+alignMatrix.d 	= CGFloat(answerMatrix[4])
+alignMatrix.tx 	= CGFloat(answerMatrix[2])
+alignMatrix.ty 	= CGFloat(answerMatrix[5])
+```
 
 ### 4. Affine Transform 수행
 앞에서 연산된 변환 행렬을 이용하여 CoreImage에서 제공하는 Affine Transform 및 Crop을 수행하면 최종 Face Alignment 결과물을 얻을 수 있다.
 
 ``` swift
 let alignedImage = originalImage
-		.transformed(by: alignMatrix)
-		.cropped(to: CGRect(x: 0, y: 0, width: 96, height: 96))
+					.transformed(by: alignMatrix)
+					.cropped(to: CGRect(x: 0, y: 0, width: 96, height: 96))
 ```
 ![affine_transform](https://user-images.githubusercontent.com/7419790/94819991-e74b0600-043a-11eb-997f-ab040ecf3ca5.jpg)
 
