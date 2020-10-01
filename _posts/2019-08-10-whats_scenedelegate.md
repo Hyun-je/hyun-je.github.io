@@ -50,3 +50,4 @@ var window: UIWindow?
 - [WWDC19 - Architecting Your App for Multiple Windows](https://wwdc.io/share/wwdc19/258)
 - [WWDC19 - Introducing Multiple Windows on iPad](https://developer.apple.com/videos/play/wwdc2019/212/)
 - [애플 개발자 문서 - UIScene](https://developer.apple.com/documentation/uikit/uiscene)
+- [Raywenderlich - Adopting Scenes in iPadOS](https://www.raywenderlich.com/5814609-adopting-scenes-in-ipados)
