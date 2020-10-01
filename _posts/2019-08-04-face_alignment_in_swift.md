@@ -68,8 +68,8 @@ let y3 = Double(originalImageSize.height - nose[4].y)
 
 ``` swift
 let alignedImage = originalImage
-					.transformed(by: alignMatrix)
-					.cropped(to: CGRect(x: 0, y: 0, width: 96, height: 96))
+		.transformed(by: alignMatrix)
+		.cropped(to: CGRect(x: 0, y: 0, width: 96, height: 96))
 ```
 ![affine_transform](https://user-images.githubusercontent.com/7419790/94819991-e74b0600-043a-11eb-997f-ab040ecf3ca5.jpg)
 
