@@ -14,15 +14,16 @@ Face Alignment는 매우 널리 사용되는 전처리 방법이므로 Python과
 
 
 ### 1. Face Landmark 추출
-Apple에서 제공하는 Vision 프레임워크의 Face Landmark 추출 기능을 활용한다.
+Apple에서 제공하는 Vision 프레임워크의 Face Landmark 추출 기능을 활용한다. `VNDetectFaceLandmarksRequest`를 생성 후 실행하면 이미지에 포함된 얼굴 개수 만큼의 `VNFaceObservation`의 배열이 만들어진다.
 
-`VNDetectFaceLandmarksRequest`를 생성 후 실행하면 이미지에 포함된 얼굴 개수 만큼의 `VNFaceObservation`의 배열이 만들어진다. 각 `VNFaceObservation`에는 `VNFaceLankmarks2D` 타입의 `landmarks` 프로퍼티를 통해 각 얼굴 포인트의 좌표 값이 기록되어 있다.
+``` swift
+let request = VNDetectFaceLandmarksRequest()
+try? VNSequenceRequestHandler().perform([request], on: originalImage)
 
-![face_landmarks](https://user-images.githubusercontent.com/7419790/94780635-bd2a2180-0403-11eb-9ddf-ef3c78f406ae.jpg)
+guard let landmarksResults = faceLandmarks.results as? [VNFaceObservation] else { return nil }
+```
 
-
-### 2. Lankmark 선택
-`VNFaceLankmarks2D` 타입은 아래와 같은 프로퍼티를 가지며 이 프로퍼티를 통해 전체 포인트 또는 특정 얼굴 요소의 포인트를 얻을 수 있다.
+각 `VNFaceObservation`의 `landmarks` 프로퍼티는 `VNFaceLankmarks2D` 타입을 가지며 아래와 같은 프로퍼티를 통해 전체 포인트 또는 특정 얼굴 요소의 포인트를 얻을 수 있다.
 
 - 모든 포인트 : `allPoints`
 - 얼굴 중심축 : `medianLine`
@@ -33,27 +34,46 @@ Apple에서 제공하는 Vision 프레임워크의 Face Landmark 추출 기능�
 - 코 : `nose` `noseCrest`
 - 입술 : `OuterLips` `innerLips` 
 
-이 중에서 `OUTER EYES AND NOSE` 기준 정렬을 수행하기 위해 필요한 요소는 아래와 같다. 그리고 각 요소에 대해 다음과 같이 이미지 평면상의 x, y 좌표를 정의하였다.
+![face_landmarks](https://user-images.githubusercontent.com/7419790/94780635-bd2a2180-0403-11eb-9ddf-ef3c78f406ae.jpg)
 
-- `leftEye[0]` → `(x1, y1)`
-- `rightEye[4]` → `(x2, y2)`
-- `nose[4]` → `(x3, y3)`
+
+### 2. 기준 Lankmark 선택
+Face Landmark 포인트 중에서 `OUTER EYES AND NOSE` 기준의 Face Alignment를 수행하기 위해 필요한 좌표값은 `leftEye[0]`, `rightEye[4]`, `nose[4]` 이다.
+
+이 때 `Vision`과 `CoreImage` 프레임워크는 y축의 방향이 서로 반대인 좌표 시스템을 사용한다는 점에 유의하여야 한다. 여기서는 이후에 수행 할 `CoreImage` 기반의 연산을 편리하게 하기 위해 미리 좌표 변환하여 저장하였다.
+
+![coordinate_system](https://user-images.githubusercontent.com/7419790/94823105-6ee64400-043e-11eb-84a3-201ed887cdb5.jpg)
 
 ![face_landmarks_selection](https://user-images.githubusercontent.com/7419790/94782434-2a3eb680-0406-11eb-94be-29a207558b4f.jpg)
+``` swift
+// Left Outer Eye
+let x1 = Double(leftEye[0].x)
+let y1 = Double(originalImageSize.height - leftEye[0].y)
+
+// Right Outer Eye
+let x2 = Double(rightEye[4].x)
+let y2 = Double(originalImageSize.height - rightEye[4].y)
+
+// Nose
+let x3 = Double(nose[4].x)
+let y3 = Double(originalImageSize.height - nose[4].y)
+```
+
+### 3. Transform Matrix 얻기
+역행렬 연산 및 행렬 곱 연산은 `Accelerate` 프레임워크의 `LinearAlgebra` 관련 함수를 이용하여 성능을 최적화 한다.
 
 
-### 3. 좌표 변환
-Vision 프레임워크와 CoreImage에서 사용하는 좌표계는 
-정확한 Transform Matrix를 구하기 위해서는 고려하여 연산을 수행하여야 한다.
+### 4. Affine Transform 수행
+앞에서 연산된 변환 행렬을 이용하여 CoreImage에서 제공하는 Affine Transform 및 Crop을 수행하면 최종 Face Alignment 결과물을 얻을 수 있다.
 
-### 4. Matrix 생성
-역행렬 연산 및 행렬 곱 연산은 Accelerate 프레임워크를 이용하여 성능을 최적화 한다.
+``` swift
+let alignedImage = originalImage
+					.transformed(by: alignMatrix)
+					.cropped(to: CGRect(x: 0, y: 0, width: 96, height: 96))
+```
+![affine_transform](https://user-images.githubusercontent.com/7419790/94819991-e74b0600-043a-11eb-997f-ab040ecf3ca5.jpg)
 
-### 5. Affine Transform 수행
-
-## 결론
-https://github.com/Hyun-je/Openface_Face_Embedding-swift
 
 ## 참고자료
-[애플 개발자 문서 - VNDetectFaceLandmarksRequest](https://developer.apple.com/documentation/vision/vndetectfacelandmarksrequest)
-[OpenFace 프로젝트 페이지](https://cmusatyalab.github.io/openface/)
+- [애플 개발자 문서 - VNDetectFaceLandmarksRequest](https://developer.apple.com/documentation/vision/vndetectfacelandmarksrequest)
+- [OpenFace 프로젝트 페이지](https://cmusatyalab.github.io/openface/)
