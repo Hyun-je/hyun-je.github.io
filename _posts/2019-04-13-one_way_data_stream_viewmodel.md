@@ -13,7 +13,7 @@ tags: [ios, swift, mvvm, rxswift]
 따라서 본 포스팅에서는 이 문제에 대한 하나의 솔루션으로 MVVM의 핵심이 되는 `ViewModel`을 단방향 데이터 흐름을 갖도록 엄격하게 정의하는 방법을 제안하고자 한다. 이를 이용한다면 전체 코드에 걸쳐 일관적인 MVVM 아키텍처를 구성하는데 효과적일 것으로 기대한다.
 
 
-## 단일 데이터 흐름 ViewModel
+## ViewModelType 정의
 먼저 `Input`과 `Output` 타입을 가지는 `ViewModelType` 프로토콜을 정의한다. 그리고 `transform` 함수는 `View`로부터 `Input`을 받아 변환하여 다시 `View`로 `Output`을 제공하는 역할을 한다.
 
 ``` swift
@@ -65,7 +65,7 @@ class ViewModel: ViewModelType {
 ```
 
 
-## ViewController 예제
+## ViewController 바인딩
 `ViewController`에서는 `View`가 로드 되는 시점에 UI요소에서 `ViewModel`로 전달할 이벤트를 `Input`으로 생성하고 `transform` 수행 후 만들어진 `Output`을 UI요소에 바인딩 한다.
 
 이로써 `ViewModel`과 `ViewController`간의 단일 데이터 흐름이 완성된다. 한편으로는 모든 데이터 바인딩 관련 코드가 `bind()` 함수 한 곳에서 수행되기 때문에 응집도 향상이라는 부수적인 효과도 가진다.
