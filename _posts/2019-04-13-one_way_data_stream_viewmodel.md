@@ -3,41 +3,18 @@ layout: post
 toc: true
 title: "단방향 데이터 흐름의 ViewModel"
 categories: ios
-tags: [ios, swift, ui]
+tags: [ios, swift, mvvm, rxswift]
 ---
 
-MVVM`(Model-View-ViewModel)`은 2005년 Microsoft WPF 프레임워크에서 제안된 아키텍처로 GUI 기반 어플리케이션의 Business Logic과 View의 관계를 정의한다. 최근에는 안드로이드 및 iOS와 같은 모바일 앱 개발 진영에서도 First Party에서 공식적으로 권장하는 MVC`(Model-View-Constroller)`아키텍처의 단점을 개선하기 위해 MVVM이 빠르게 도입되고 있다.
+최근 iOS 프레임워크에서의 MVVM 아키텍처 구현은 RxSwift를 이용한 데이터 바인딩이 표준으로 자리잡는 추세로 보인다. RxSwift는 MVVM과 좋은 궁합으로 시너지를 창출하였지만 좋지 못한 `ViewModel` 패턴을 양산하고 있는데 대표적으로 `Subject`의 남용이다.
 
-이렇게 MVVM에 대한 관심이 많아지면서 MVVM이 가진 문제점들 또한 하나 둘 제기되고 있는데 대표적으로는 ViewModel의 비대화, ViewModel의 역할 정의 불명확 등이 있다. 이는 대부분 MVVM이라는 아키텍처에 대해 개발자들간의 개념 정의와 이해도가 일치하지 않아서 발생하는 문제라고 생각한다.
+`Observer`와 `Observable` 모두의 역할을 하는 `Subject`는 높은 자유도로 구현에 있어 많은 편의를 제공한다. 그러나 데이터를 방출하는 주체와 구독하는 주체가 `ViewModel`인지 `View`인지 모호해지기 쉽기 때문에 실수와 버그의 원인이 될 수 있다.
 
-따라서 본 포스팅에서는 이 문제에 대한 하나의 솔루션으로 MVVM의 핵심이 되는 ViewModel을 단방향 데이터 흐름을 갖도록 엄격하게 정의하는 방법을 제안하고자 한다. 이를 이용한다면 전체 코드에 걸쳐 일관적인 MVVM 아키텍처를 구성하는데 효과적일 것으로 기대한다.
-
-
-## iOS에서의 MVVM
-![1*iwgAHz3uZGqyk3OhOOjgyg](https://user-images.githubusercontent.com/7419790/94890022-0be5c300-04b9-11eb-8b01-8e1dd8c32bd4.jpeg)
-
-iOS 에서의 MVVM은 기본적으로 `View`와 `Controller`가 결합된 `ViewController`를 `View`로써 역할을 제한하고 Business Logic 부분을 `ViewModel`에 따로 떼어낸 형태를 가진다.
-
-부가적으로 데이터 바인딩의 개념이 적용되어 있으나 기본적으로 MVC 구조에서 크게 벗어나지 않았기 때문에 단일 책임 원칙과 테스트 용이성 등의 이점을 가져가면서도 기존 코드에서의 마이그레이션도 어렵지 않다.
-
-
-## 표준 MVVM 아키텍처의 부재
-MVVM을 구현할 때 가장 `ViewModel`이다. `ViewModel`은 Model에서 데이터를 받아 View에서 View는 바인딩 하여 
-
-- Delegation
-- Property Observer
-- Closure
-- Reactive Programming (RxSwift)
-
-최근에는 RxSwift로 대표되는 Reactive 프로그래밍의 개념도 도입되면서 
-Subject는 많은 로직들을 
-이렇게 하는 경우 
+따라서 본 포스팅에서는 이 문제에 대한 하나의 솔루션으로 MVVM의 핵심이 되는 `ViewModel`을 단방향 데이터 흐름을 갖도록 엄격하게 정의하는 방법을 제안하고자 한다. 이를 이용한다면 전체 코드에 걸쳐 일관적인 MVVM 아키텍처를 구성하는데 효과적일 것으로 기대한다.
 
 
 ## 단일 데이터 흐름 ViewModel
-특히 RxSwift를 사용하는 경우에 대한 ViewModel 구성을 제안하고자 한다.
-
-먼저 `Input`과 `Output` 타입을 가지는 `ViewModelType` 프로토콜을 정의한다. 그리고 `transform` 함수를 통해 `View`로부터 `Input`을 받아 변환하여 다시 `View`로 `Output`을 제공하는 단일 데이터 흐름을 강제한다.
+먼저 `Input`과 `Output` 타입을 가지는 `ViewModelType` 프로토콜을 정의한다. 그리고 `transform` 함수는 `View`로부터 `Input`을 받아 변환하여 다시 `View`로 `Output`을 제공하는 역할을 한다.
 
 ``` swift
 protocol ViewModelType {
