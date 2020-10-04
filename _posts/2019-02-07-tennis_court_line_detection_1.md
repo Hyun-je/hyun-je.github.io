@@ -19,13 +19,13 @@ import numpy as np
 img = cv2.imread("court.jpg") # 원본 이미지 불러오기
 ```
 ![original](https://user-images.githubusercontent.com/7419790/95008179-80a03500-0652-11eb-9e57-630777873222.jpg)
+
 ![court](https://user-images.githubusercontent.com/7419790/95008759-bf84b980-0657-11eb-9606-f97636f6c73a.jpg)
 
-이미지 처리 및 테니스 코트 라인 검출은 아래과 같은 순서로 이루어집니다. 최종적으로 테니스 코트 상의 4개의 포인트 좌표가 검출 되며 이 좌표는 이후의 **Camera Pose** 추정을 위한 기준점으로 활용됩니다.
+이미지 처리 및 테니스 코트 라인 검출은 아래과 같은 순서로 이루어집니다. 최종적으로 **X**로 표시된 4개 포인트(서비스 라인, 베이스 라인, 단식 사이드 라인의 교점)의 이미지 평면상의 좌표가 검출 되며 이 좌표는 이후의 **Camera Pose** 추정을 위한 기준점으로 활용됩니다.
 
 
 ## 1. 이미지 전처리
-
 주변 환경과 카메라의 특성에 의한 영향을 줄이기 위해 전처리 과정을 적용합니다. 여기서는 어떤 정답이 있는게 아니라 경험적으로 판단한 적정 알고리즘과 파라미터를 찾아야 합니다.
 
 - Color Space 변경 (RGB → 그레이스케일) : 불필요한 컬러 정보 제거
@@ -52,15 +52,20 @@ def preprocessImage(img):
 
 
 ## 2. 직선 검출
-이미지에 포함된 직선들을 검출합니다. 먼저 Morphology 연산과 Canny Edge 알고리즘을 적용하여 윤곽이 강조되도록 한 뒤 Hough 변환을 이용한 직선 검출 알고리즘을 사용합니다. 검출된 직선들은 각각 `rho`와 `theta` 두개의 파라미터로 표현됩니다.
+이미지에 포함된 직선들을 Hough 변환 알고리즘을 사용하여 검출합니다. 검출된 직선들은 각각 `rho`와 `theta` 두개의 파라미터로 표현됩니다.
+
+- Morphology 연산 : 흰색 선을 강조
+- Canny Edge 연산 : 윤곽 성분만 Binary 이미지로 검출
+- Hough 변환 : Binary 이미지에 포함된 직선들을 검출
+
 ``` python
 def lineDetection(img):
 
-    # Morphology 적용으로 흰색 선 강조
+    # Morphology 적용
     kernel = np.ones((5,5), np.uint8)
     img = cv2.morphologyEx(img, cv2.MORPH_CLOSE, kernel)
 
-    # Edge 검출로 윤곽만 추출
+    # Edge 검출
     img = cv2.Canny(img, 50, 200)
 
     # 직선 검출
@@ -96,6 +101,7 @@ def lineClustering(lines, threshold = 20.0):
             y2 = rho1 * math.sin(theta1)
             
             distance = math.sqrt(math.pow(x1 - x2, 2) + math.pow(y1 - y2, 2))
+
             if distance <= threshold:
 
                 rho_new =   (rho1   * cluster_size + rho0)      / (cluster_size + 1)
@@ -115,10 +121,18 @@ def lineClustering(lines, threshold = 20.0):
 
 
 ## 4. 테니스 코트 라인 분류
+클러스터링 된 직선 중 서비스 라인, 베이스 라인, 단식 사이드 라인에 해당하는 4개의 직선을 분류합니다. 아래 코드의 알고리즘은 포스팅 서론에서 제시된 카메라 포즈에서만 유효하므로 좀 더 다양한 화각의 촬영조건에 대응하기 위해서는 고도의 알고리즘이 필요합니다.
 
+- 수평선 중 이미지 아래 쪽 2개의 라인 선택 → **서비스 라인, 베이스 라인**
+- 좌우 대칭이 되는 라인 중 기울기가 가장 큰 2개의 라인 선택 → **단식 사이드 라인**
 
+``` python
+
+```
 
 ## 5. 라인의 교점 연산
+최종적으로 분류된 4개의 테니스 코트 라인이 이루는 4개의 교점 좌표를 구합니다. 이미 각 직선의 파라미터를 알고 있으므로 간단한 연산만으로 교점의 x, y 좌표를 구할 수 있습니다.
 
+``` python
 
-
+```
