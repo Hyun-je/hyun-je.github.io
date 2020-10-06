@@ -10,6 +10,26 @@ tags: [opencv, python, vision]
 
 카메라 자세 추정 기술은 2D의 이미지와 3D의 실제 공간을 연결해주는 수학적 도구로 최근 관심이 높아진 AR이나 SLAM의 핵심 기술 중 하나이다.
 
+\[
+c
+\begin{bmatrix}
+u \\ v \\ 0 \\
+\end{bmatrix}=
+\begin{bmatrix}
+f_x & 0 & c_x \\
+0 & f_y & c_y \\
+0 & 0 & 1 \\
+\end{bmatrix}
+\begin{bmatrix}
+r_{11} & r_{12} & r_{13} & t_1 \\
+r_{21} & r_{22} & r_{23} & t_2 \\
+r_{31} & r_{32} & r_{33} & t_3 \\
+\end{bmatrix}
+\begin{bmatrix}
+x \\ y \\ z \\ 0
+\end{bmatrix}
+\]
+
 
 ## 1. 좌표계 설정
 가장 먼저 월드 좌표계 및 이미지 평면 좌표계를 설정한다. 적절한 좌표계를 설정해야만 이후의 연산 과정이 심플해지고 최종 연산 결과를 렌더링에 이용하기도 편리하다.
@@ -22,17 +42,20 @@ tags: [opencv, python, vision]
 
 예제에서는 아이폰 6 Plus의 후면 카메라를 사용했는데 애플은 모든 아이폰 카메라의 파라미터를 [개발자 문서](https://developer.apple.com/library/archive/documentation/DeviceInformation/Reference/iOSDeviceCompatibility/Cameras/Cameras.html)를 통해 제공하므로 해당 값을 그대로 이용할 수 있다. 만일 카메라의 파라미터를 구할 수 없는 경우 OpenCV에서 제공하는 카메라 캘리브레이션 기능을 활용하면 어렵지 않게 구할 수 있다.
 
-
-## 3. Extrinsic Matrix 추정
-[첫번째 포스팅](https://hyun-je.github.io/vision/2019/02/07/tennis_court_line_detection_1.html)에서 구한 4개의 기준 포인트를 사용할 것이다. Extrinsic Matrix는 3x4 행렬이므로 총 12개의 미지수가 있으므로 원래는 더 OpenCV의 solvePnP 함수는 최소 4개의 좌표만 주어지면 반복적으로 오차를 줄여나가며 추정해 나간다. 초기값을 정답과 어느정도 유사하게 제공해주면 훨씬 더 좋은 결과물을 얻을 수 있다. 테니스 코트의 규격, 사람의 키, 카메라 촬영 각도 등을 고려하여 
-
 \[
+T = 
 \begin{bmatrix}
 f_x & 0 & c_x \\
 0 & f_y & c_y \\
 0 & 0 & 1 \\
 \end{bmatrix}
-\begin{bmatrix}
+\]
+
+## 3. Extrinsic Matrix 추정
+[첫번째 포스팅](https://hyun-je.github.io/vision/2019/02/07/tennis_court_line_detection_1.html)에서 구한 4개의 기준 포인트를 사용할 것이다. Extrinsic Matrix는 3x4 행렬이므로 총 12개의 미지수가 있으므로 원래는 더 OpenCV의 solvePnP 함수는 최소 4개의 좌표만 주어지면 반복적으로 오차를 줄여나가며 추정해 나간다. 초기값을 정답과 어느정도 유사하게 제공해주면 훨씬 더 좋은 결과물을 얻을 수 있다. 테니스 코트의 규격, 사람의 키, 카메라 촬영 각도 등을 고려하여 
+
+\[
+R=\begin{bmatrix}
 r_{11} & r_{12} & r_{13} & t_1 \\
 r_{21} & r_{22} & r_{23} & t_2 \\
 r_{31} & r_{32} & r_{33} & t_3 \\
