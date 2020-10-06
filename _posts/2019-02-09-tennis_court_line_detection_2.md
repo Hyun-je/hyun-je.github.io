@@ -11,7 +11,6 @@ tags: [opencv, python, vision]
 카메라 자세 추정 기술은 2D의 이미지와 3D의 실제 공간을 연결해주는 수학적 도구로 최근 관심이 높아진 AR이나 SLAM의 핵심 기술 중 하나이다.
 
 $$
-\[
 c
 \begin{bmatrix}
 u \\ v \\ 0 \\
@@ -29,7 +28,6 @@ r_{31} & r_{32} & r_{33} & t_3 \\
 \begin{bmatrix}
 x \\ y \\ z \\ 0
 \end{bmatrix}
-\]
 $$
 
 ## 1. 좌표계 설정
