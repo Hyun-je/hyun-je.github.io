@@ -20,7 +20,7 @@ tags: [opencv, python, vision]
 ## 2. Intrinsic Matrix 계산
 카메라 모델은 Intrinsic Matrix와 Extrinsic Matrix로 구성된다. Intrinsic Matrix는 카메라의 이미지 센서와 렌즈의 하드웨어적인 파라미터에 의해 고정된 값으로 
 
-예제에서는 아이폰 6 Plus의 후면 카메라를 사용했는데 애플은 모든 아이폰 카메라의 파라미터를 제공하므로 해당 값을 그대로 이용할 수 있다. 만일 카메라의 파라미터를 구할 수 없는 경우 OpenCV에서 제공하는 카메라 캘리브레이션 기능을 활용하면 어렵지 않게 구할 수 있다.
+예제에서는 아이폰 6 Plus의 후면 카메라를 사용했는데 애플은 모든 아이폰 카메라의 파라미터를 [개발자 문서](https://developer.apple.com/library/archive/documentation/DeviceInformation/Reference/iOSDeviceCompatibility/Cameras/Cameras.html)를 통해 제공하므로 해당 값을 그대로 이용할 수 있다. 만일 카메라의 파라미터를 구할 수 없는 경우 OpenCV에서 제공하는 카메라 캘리브레이션 기능을 활용하면 어렵지 않게 구할 수 있다.
 
 
 ## 3. Extrinsic Matrix 추정
@@ -52,5 +52,4 @@ f_x & 0   & 3 \\
 
 
 ## 참고자료
-- [애플 개발자 문서 - iOS Device Compatibility Reference](https://developer.apple.com/library/archive/documentation/DeviceInformation/Reference/iOSDeviceCompatibility/Cameras/Cameras.html)
 - [OpenCV Documentation - Camera Calibration and 3D Reconstruction](https://docs.opencv.org/4.0.0/d9/d0c/group__calib3d.html)
