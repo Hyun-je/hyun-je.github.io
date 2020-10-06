@@ -29,6 +29,17 @@ tags: [opencv, python, vision]
 $$2x^3$$
 $$x = {-b \pm \sqrt{b^2-4ac} \over 2a}$$
 
+$\begin{bmatrix}
+f_x & 0 & 3 \\
+0 & f_y & 6 \\
+0 & 0 & 1 \\
+\end{bmatrix}$$
+\begin{bmatrix}
+f_x & 0   & 3 \\
+0   & f_y & 6 \\
+0   & 0   & 1 \\
+\end{bmatrix}$
+
 
 ## 4. Eular 각도 계산
 
