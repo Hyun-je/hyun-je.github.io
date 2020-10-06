@@ -26,7 +26,10 @@ tags: [opencv, python, vision]
 ## 3. Extrinsic Matrix 추정
 [첫번째 포스팅](https://hyun-je.github.io/vision/2019/02/07/tennis_court_line_detection_1.html)에서 구한 4개의 기준 포인트를 사용할 것이다. Extrinsic Matrix는 3x4 행렬이므로 총 12개의 미지수가 있으므로 원래는 더 OpenCV의 solvePnP 함수는 최소 4개의 좌표만 주어지면 반복적으로 오차를 줄여나가며 추정해 나간다. 초기값을 정답과 어느정도 유사하게 제공해주면 훨씬 더 좋은 결과물을 얻을 수 있다. 테니스 코트의 규격, 사람의 키, 카메라 촬영 각도 등을 고려하여 
 
-$2x^3$
+$$2x^3$$
+
+When \(a \ne 0\), there are two solutions to \(ax^2 + bx + c = 0\) and they are
+\[x = {-b \pm \sqrt{b^2-4ac} \over 2a}.\]
 
 
 ## 4. Eular 각도 계산
