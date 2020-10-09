@@ -23,7 +23,7 @@ $$
 c \cdot q=M \begin{bmatrix}R \ | \ T\end{bmatrix} X
 $$
 
-이 때 $$M$$은 `Intrinsic Matrix`를 의미하며 $$[R|T]$$는 `Extrinsic Matrix`를 의미하는데 각 Matrix를 구하는 과정은 아래에 자세하게 정리하였다.
+이 때 $$M$$은 `Intrinsic Matrix`를 의미하며 $$\begin{bmatrix}R \ | \ T\end{bmatrix}$$는 `Extrinsic Matrix`를 의미하는데 각 Matrix를 구하는 과정은 아래에 자세하게 정리하였다.
 
 $$
 M=\begin{bmatrix}
