@@ -6,10 +6,9 @@ categories: ios
 tags: [ios, swift, ui, wwdc19]
 ---
 
-![SwiftUI](https://user-images.githubusercontent.com/7419790/95643315-74502800-0ae9-11eb-801a-c1bc555b9287.jpg)
-
-
 이번 **WWDC19**에서 iOS의 `UIKit`과 MacOS의 `AppKit`을 대체할 새로운 UI 개발 프레임워크인 `SwiftUI`가 등장하였다. 애플은 7개나 되는 세션을 `SwiftUI`와 관련된 내용으로 채운 만큼 이번 **WWDC19**에서 가장 주요한 내용 중 하나로 포지셔닝하였다.
+
+![SwiftUI](https://user-images.githubusercontent.com/7419790/95643315-74502800-0ae9-11eb-801a-c1bc555b9287.jpg)
 
 가장 최신의 언어 중 하나인 `Swift`가 최신의 프로그래밍 패러다임을 잘 담고 있듯이 `SwiftUI` 또한 애플의 뛰어난 개발자들이 여러 의미 있는 소프트웨어적 개념들을 반영한 결과물이다. 그렇기 때문에 `SwiftUI`의 형태와 구성 하나하나를 음미해보는 것은 최신의 프로그래밍 패러다임의 흐름을 파악할 수 있는 좋은 방법이기도 하다.
 
@@ -75,7 +74,7 @@ struct OrderCell: View {
 
 이러한 구성은 뷰를 위 도식처럼 Input(`order` 프로퍼티)을 받아 `body`를 통해 Output으로 `View`를 출력하는 순수 함수의 형태로 만들어 준다. 그 결과 개발자는 뷰의 내외부 상태를 고려할 필요가 없으며 동일한 데이터에 대해서는 항상 동일한 뷰가 생성되는 것을 보장받는다. 다시 말해 데이터 변경이 발생했을 때 해당 데이터와 관련된 UI요소를 식별하여 업데이트 하는 것이 아니라 순수 함수를 통해 전체의 새로운 뷰를 생성하는 단일 흐름으로 단순화 된다.
 
-이렇게 `SwiftUI`에서 뷰의 순수 함수적이고 불변적 특성은 객체 지향적(Object-Oriented)인 `UIKit`과 결정적으로 차별화 되는 사항으로 `SwiftUI`를 `SwiftUI`답게 사용하기 위해 반드시 알고 있어야 하는 사항이다.
+이렇게 `SwiftUI`에서 뷰의 순수 함수적이고 불변적인 특성은 객체 지향적(Object-Oriented)인 `UIKit`과 결정적으로 차별화 되는 사항으로 `SwiftUI`를 `SwiftUI`답게 사용하기 위해 반드시 알고 있어야 하는 사항이다.
 
 
 ## 참고자료
