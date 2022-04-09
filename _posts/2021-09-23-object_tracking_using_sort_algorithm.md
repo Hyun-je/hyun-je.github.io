@@ -40,7 +40,7 @@ SORT는 영상 시퀀스의 각 프레임에서 객체 인식을 통해 얻은 �
 
 ### 4. Tracking
 | 매칭 결과 | 분류 기준 | Tracker 처리 |
-|----|----|----|
+|---|---|---|
 | Matched Tracks | Detection 및 Predicion 에 모두 포함 | 유지 |
 | Unmatched Tracks | Predection 에만 포함 | 제거 |
 | Unmached Detections | Detection 에만 포함 | 생성 |
