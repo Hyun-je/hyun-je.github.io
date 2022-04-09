@@ -39,11 +39,11 @@ SORT는 영상 시퀀스의 각 프레임에서 객체 인식을 통해 얻은 �
 그리고 IOU의 크기에 따라 가장 적절한 쌍을 매칭하여 매칭된 쌍과 매칭되지 않은 나머지로 객체를 분류한다. 이 때 헝가리안 알고리즘(Hungarian Algorithm)이 사용되는데 이 알고리즘은 $$O(n^3)$$의 상당히 높은 시간 복잡도를 가지므로 입력되는 객체의 수는 적절하게 제한될 필요가 있다.
 
 ### 4. Tracking
-| 매칭 결과 | 분류 기준 | Tracker 처리 |
+|매칭 결과|분류 기준|Tracker 처리|
 |---|---|---|
-| Matched Tracks | Detection 및 Predicion 에 모두 포함 | 유지 |
-| Unmatched Tracks | Predection 에만 포함 | 제거 |
-| Unmached Detections | Detection 에만 포함 | 생성 |
+|Matched Tracks|Detections 및 Predicions 에 모두 포함|유지|
+|Unmatched Tracks|Predections 에만 포함|제거|
+|Unmached Detections|Detections 에만 포함|생성|
 
 매칭의 결과로 각각의 모든 객체의 상태는 위와 같이 3가지로 분류된다. 이 때 Unmatched Tracks와 Detections를 처리하는 전략은 필요에 따라 조정할 수 있다.
 
