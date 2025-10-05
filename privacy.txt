@@ -1,0 +1,27 @@
+Privacy Policy
+Last Updated: October 4, 2025
+
+Introduction
+Landing Report is committed to protecting your privacy. This Privacy Policy explains how your personal data is collected, used, and stored when you use our application. We believe in privacy by design, and our app is built to keep your data private and under your control.
+
+Data We Do Not Collect
+We want to be clear: we do not collect, store, or have access to any of your personal landing data, flight records. We do not have a server-side database to store this information.
+
+Data You Provide and How It's Stored
+All data you enter into Landing Report, including airport information, aircraft details, landing parameters, and notes, is stored locally on your device.
+If you have iCloud enabled, you can choose to use our CloudKit Sync feature. This service is designed to sync your data seamlessly across your personal devices (e.g., iPhone and iPad). This data is stored in your private iCloud container, which we, the developers, do not have access to. Apple's CloudKit privacy policy governs this data.
+
+Camera Data
+The app may request access to your camera to use our Optical Character Recognition (OCR) feature for reading flight instrument data. Images captured for OCR are processed on-device and are not stored or transmitted unless you explicitly save them.
+
+Data Usage
+Your data is used solely to provide you with the features of the app, such as generating landing reports, providing statistics, and replaying your landings. We do not use your data for advertising or any other purpose.
+
+Your Control and Rights
+You have full control over your data. You can add, edit, and delete your records at any time within the app. Deleting a record removes it from your device and, if synced, from your private iCloud container.
+
+Changes to This Policy
+We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy within the app.
+
+Contact Us
+If you have any questions about this Privacy Policy, please contact us at bigae2@gmail.com.
